@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { createOrUpdateUser } from "@/lib/actions/user";
+import { createOrUpdateUser, deleteUser } from "@/lib/actions/user";
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -82,7 +82,7 @@ export async function POST(req) {
   if (eventType === "user.deleted") {
     const { id } = evt?.data;
     try {
-      await createOrUpdateUser(id);
+      await deleteUser(id);
 
       return new Response("User is deleted", {
         status: 200,
